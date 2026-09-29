@@ -27,7 +27,7 @@ use std::vec;
 use super::*;
 use crate::events::VoteWeightSnapshotCreatedEvent;
 use crate::multisig::DEFAULT_PROPOSAL_EXPIRY;
-use soroban_sdk::testutils::{Address as _, Events, Ledger};
+use soroban_sdk::testutils::{Address as _, Events as _, Ledger};
 use soroban_sdk::{symbol_short, Address, Env, Symbol, TryFromVal, Vec};
 
 // ────────────────────────────────────────────────────────────────────
@@ -203,7 +203,7 @@ fn vw_snapshot_event_emitted_with_matching_fields() {
         "exactly one VoteWeightSnapshotCreated event per create_proposal",
     );
     let (_cid, _topics, data) = new_events.last().unwrap();
-    let payload: VoteWeightSnapshotCreatedEvent = soroban_sdk::FromVal::from_val(&env, &data);
+    let payload: VoteWeightSnapshotCreatedEvent = soroban_sdk::FromVal::from_val(&env, data);
     assert_eq!(payload.proposal_id, id);
     assert_eq!(payload.owners_count, 3);
     assert_eq!(payload.threshold, 3);

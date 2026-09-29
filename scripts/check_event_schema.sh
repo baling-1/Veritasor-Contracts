@@ -180,8 +180,10 @@ extract_members() {
                 print "unparseable struct member in " name ": " t > "/dev/stderr"
                 exit 2
             }
-            if (t ~ /^[A-Za-z0-9_]+[ \t]*,?$/) {
-                v = t; sub(/,[ \t]*$/, "", v); gsub(/[ \t]+/, "", v)
+            if (t ~ /^[A-Za-z0-9_]+([ \t]*=[ \t]*-?[0-9]+)?[ \t]*,?$/) {
+                v = t
+                sub(/[ \t]*=[ \t]*-?[0-9]+/, "", v)
+                sub(/,[ \t]*$/, "", v); gsub(/[ \t]+/, "", v)
                 printf "enum|%s|%s\n", name, v
                 members++
                 next
